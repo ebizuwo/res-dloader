@@ -1,8 +1,8 @@
 {
-    "name": "Getting Started Example",
+    "name": "MADS_ResD",
     "version": "1.0",
-    "description": "Build an Extension!",
-    "permissions": ["storage"],
+    "description": "Downloads resources from coursera",
+    "permissions": ["storage", "downloads", "identity"],
     "background": {
       "scripts": ["background.js"],
       "persistent": false
@@ -19,7 +19,7 @@
     "content_scripts": [
       {
         "matches": [
-          "<all_urls>"
+          "https://*.coursera.org/learn/*/resources*"
         ],
         "js": ["content.js"]
       }
