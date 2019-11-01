@@ -1,14 +1,15 @@
-alert("content is running")
-let page_div = document.getElementsByClassName("rc-CML styled").childNodes.values();
-document.querySelector("#rendered-content > div > div > div > main > div > div > section > div")
-let a = document.getElementsByTagName("a");
+alert("content is running");
 
 
-let i;
-let page_links = [];
-for ( i=0;i < a.length; i++){
-    page_links.push(a[i])
+var array = [];
+var div = document.getElementsByClassName('rc-CML')[0];
+var links = div.getElementsByTagName("a");
+for(var i=0, max=links.length; i<max; i++) {
+    var url = links[i].href;
+    if(url.indexOf('https://drive.google.com/open') > -1) {
+      var newUrl = 'https://drive.google.com/a/umich.edu/uc?id='+url.split('=')[1];
+      array.push(newUrl);
+      var tab = window.open(newUrl, '_blank');
+    }
 }
-alert(page_div)
-// console.log(page_links);
-// alert(page_links.toString())
+
