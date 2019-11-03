@@ -1,7 +1,8 @@
-chrome.runtime.sendMessage({
-  from: 'content',
-  subject: 'showPageAction',
-});
+// chrome.runtime.sendMessage({
+//   from: 'content',
+//   subject: 'showPageAction',
+//   tabHeadline: document.getElementsByClassName("tab-headline")[0].childNodes[0].innerText
+// });
 
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     if ((msg.from === 'popup') && (msg.subject === 'DOMInfo')) {
@@ -45,6 +46,39 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         }
     }
 });
+
+function init(){
+    console.log("init called")
+    let headline ="";
+    try{
+        headline = document.getElementsByClassName("tab-headline")[0].childNodes[0].innerText;
+    }
+    catch{
+        console.log("headline not present in dom")
+    }
+    if(headline === "Lecture Slides") {
+        console.log("detected change and lecture slide is present");
+        chrome.runtime.sendMessage({
+          from: 'content',
+          subject: 'showPageAction',
+          tabHeadline: headline
+        });
+    }
+    else{
+        console.log("detected change and lecture slide is not present");
+        chrome.runtime.sendMessage({
+          from: 'content',
+          subject: 'hidePageAction',
+          tabHeadline: headline
+        });
+    }
+}
+
+document.addEventListener('click', ()=>{
+    console.log("init finna be called");
+    setTimeout(function(){init();},500);
+});
+// document.addEventListener('DOMContentLoaded', init);
 
 
 
