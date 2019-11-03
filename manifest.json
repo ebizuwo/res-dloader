@@ -1,26 +1,15 @@
 {
     "name": "Coursera MADS Slide Downloader",
-    "version": "1.0",
+    "version": "0.1.0",
     "description": "Downloads lecture slide resources from coursera",
-    "offline_enabled": true,
-    "permissions": ["downloads", "tabs", "https://*.coursera.org/learn/*/resources*"],
+    "offline_enabled": false,
+    "permissions": ["https://*.coursera.org/learn/*/resources*"],
     "background": {
       "scripts": ["background.js"],
       "persistent": false
     },
-//    "browser_action": {
-//      "default_popup": "popup.html",
-//      "default_title": "Coursera MADS Slide Downloader",
-//      "default_icon": {
-//        "128": "icons/fa"19": "img/icon19.png",vicon_128.png",
-////        "64": "icons/favicon_64.ico",
-//        "48": "icons/favicon_48.png",
-////        "32": "icons/favicon_32.ico",
-//        "16": "icons/favicon_16.png"
-//      }
-//    },
     "page_action": {
-      "default_title": "Test Extension",
+      "default_title": "Course MADS Slide Downloader",
       "default_popup": "popup.html",
       "default_icon": {
         "128": "icons/favicon_128.png",
