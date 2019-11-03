@@ -31,34 +31,21 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         console.log("sending domInfo");
         response(domInfo());
     }
-});
-
-chrome.runtime.onMessage.addListener( (msg, sender, response) => {
-    if ((msg.from === "popup") && (msg.subject==="links")){
-        for(let i=0; i<msg.links; i++){
-            window.open(msg.links[i]);
+    if ((msg.from === 'popup') && (msg.subject === 'links')) {
+        //TODO: Change 0 to length of array
+        for(let i = 0; i<msg.links.length; i++){
+            console.log("executing links");
+            try{
+                window.open(msg.links[i].dlLink).blur();
+                response(true);
+            }catch (e) {
+                console.log(e);
+                response(false);
+            }
         }
-        response(true)
     }
 });
 
 
 
-// chrome.browserAction.onClicked.addListener(function(activeTab){
-//     var newURL = "http://stackoverflow.com/";
-//     chrome.tabs.create({ url: newURL });
-// });
-//
-// alert("content is running");
-// var array = [];
-// var div = document.getElementsByClassName('rc-CML')[0];
-// var links = div.getElementsByTagName("a");
-// for(var i=0, max=links.length; i<max; i++) {
-//     var url = links[i].href;
-//     if(url.indexOf('https://drive.google.com/open') > -1) {
-//       var newUrl = 'https://drive.google.com/a/umich.edu/uc?id='+url.split('=')[1];
-//       array.push(newUrl);
-//       var tab = window.open(newUrl, '_blank');
-//     }
-// }
 

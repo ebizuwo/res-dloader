@@ -10,57 +10,57 @@ let getLinks = (type) => {
             let send_arr = [];
             let wk = type.match(/\d+/)
             //TODO: change the 3 below to arr.length
-            for(let i=0;i<3;i++){
+            for(let i=0;i<arr.length;i++){
                 if(type==="all"){
                     send_arr.push(arr[i]);
                 }
-                if(type==="week1"){
+                if((type==="week1")&&(arr[i].week==="1")){
                     send_arr.push(arr[i])
                 }
-                if(type==="week2"){
+                if((type==="week2")&&(arr[i].week==="2")){
                     send_arr.push(arr[i]);
                 }
-                if(type==="week3"){
+                if((type==="week3")&&(arr[i].week==="3")){
                     send_arr.push(arr[i]);
                 }
-                if(type==="week4"){
+                if((type==="week4")&&(arr[i].week==="4")){
                     send_arr.push(arr[i]);
                 }
             }
+            chrome.tabs.sendMessage(tabs[0].id, {from:"popup", subject:"links", links: send_arr}, (response) => {
+                if(response) {
+                    console.log("sucessfully launched links");
+                }
+                else {
+                    console.log("something went wrong launching links");
+                }
+            });
         });
     });
 };
 
-let sendLinks = (links) => {
-    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, {from:"popup", subject:"links", links:links}, (response) => {
-          if(response) {
-              console.log("sucessfully launched links");
-          }
-          else {
-              console.log("something went wrong launching links");
-          }
-      });
+
+function init(){
+    document.getElementById('download_all').addEventListener("click", (event) => {
+        getLinks("download_all");
     });
+
+    document.getElementById('week1').addEventListener("click", (event) => {
+        getLinks("week1");
+    });
+
+    document.getElementById('week2').addEventListener("click", (event) => {
+        getLinks("week2");
+    });
+
+    document.getElementById('week3').addEventListener("click", (event) => {
+        getLinks("week3");
+    });
+
+    document.getElementById('week4').addEventListener("click", (event) => {
+        getLinks("week4");
+    });
+
 }
 
-
-document.addEventListener('DOMContentLoaded', function load(event) {
-    document.getElementById('download_all').addEventListener('click', getLinks("all"))
-});
-
-document.addEventListener('DOMContentLoaded', function load(event) {
-        document.getElementById('week1').addEventListener('click', getLinks('week1'))
- });
-
-document.addEventListener('DOMContentLoaded', function load(event) {
-        document.getElementById('week2').addEventListener('click', getLinks('week2'))
- });
-
-document.addEventListener('DOMContentLoaded', function load(event) {
-        document.getElementById('week3').addEventListener('click', getLinks('week3'))
- });
-
-document.addEventListener('DOMContentLoaded', function load(event) {
-        document.getElementById('week4').addEventListener('click', getLinks('week4'))
- });
+document.addEventListener('DOMContentLoaded', init);

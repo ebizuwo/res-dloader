@@ -3,7 +3,7 @@
     "version": "1.0",
     "description": "Downloads lecture slide resources from coursera",
     "offline_enabled": true,
-    "permissions": ["storage", "downloads", "tabs", "https://*.coursera.org/learn/*/resources*"],
+    "permissions": ["downloads", "tabs", "https://*.coursera.org/learn/*/resources*"],
     "background": {
       "scripts": ["background.js"],
       "persistent": false
