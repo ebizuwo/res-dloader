@@ -1,8 +1,3 @@
-chrome.runtime.sendMessage({
-  from: 'content',
-  subject: 'showPageAction',
-});
-
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     if ((msg.from === 'popup') && (msg.subject === 'DOMInfo')) {
         let domInfo = () => {
@@ -32,7 +27,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         response(domInfo());
     }
     if ((msg.from === 'popup') && (msg.subject === 'links')) {
-        //TODO: Change 0 to length of array
         for(let i = 0; i<msg.links.length; i++){
             console.log("executing links");
             try{
@@ -44,6 +38,40 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
             }
         }
     }
+});
+
+//TODO: Might be too much hardcoded logic here
+function init(){
+    console.log("init called")
+    let headline ="";
+    try{
+        headline = document.getElementsByClassName("tab-headline")[0].childNodes[0].innerText;
+    }
+    catch{
+        console.log("headline not present in dom")
+    }
+    if(headline === "Lecture Slides" | headline === "Course Slides") {
+        console.log("detected change and \"slides\" is present");
+        chrome.runtime.sendMessage({
+          from: 'content',
+          subject: 'showPageAction',
+          tabHeadline: headline
+        });
+    }
+    else{
+        console.log("detected change and lecture slide is not present");
+        chrome.runtime.sendMessage({
+          from: 'content',
+          subject: 'hidePageAction',
+          tabHeadline: headline
+        });
+    }
+}
+
+// Event listener for click events for some reason cannot check when dom changes
+document.addEventListener('click', ()=>{
+    console.log("init finna be called");
+    setTimeout(function(){init();},500);
 });
 
 
