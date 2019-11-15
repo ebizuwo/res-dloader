@@ -1,9 +1,3 @@
-// chrome.runtime.sendMessage({
-//   from: 'content',
-//   subject: 'showPageAction',
-//   tabHeadline: document.getElementsByClassName("tab-headline")[0].childNodes[0].innerText
-// });
-
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     if ((msg.from === 'popup') && (msg.subject === 'DOMInfo')) {
         let domInfo = () => {
@@ -47,6 +41,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     }
 });
 
+//TODO: Might be too much hardcoded logic here
 function init(){
     console.log("init called")
     let headline ="";
@@ -56,8 +51,8 @@ function init(){
     catch{
         console.log("headline not present in dom")
     }
-    if(headline === "Lecture Slides") {
-        console.log("detected change and lecture slide is present");
+    if(headline === "Lecture Slides" | headline === "Course Slides") {
+        console.log("detected change and slides is present");
         chrome.runtime.sendMessage({
           from: 'content',
           subject: 'showPageAction',
@@ -74,11 +69,11 @@ function init(){
     }
 }
 
+// Event listener for click events for some reason cannot check when dom changes
 document.addEventListener('click', ()=>{
     console.log("init finna be called");
     setTimeout(function(){init();},500);
 });
-// document.addEventListener('DOMContentLoaded', init);
 
 
 

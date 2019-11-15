@@ -1,8 +1,5 @@
-// window.addEventListener('DOMContentLoaded', () => {
-//     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-//         chrome.tabs.sendMessage(tabs[0].id, {from: 'popup', subject: 'DOMInfo'}, setDOMInfo);
-//     });
-// });
+// this sends a message to current tab content after button click to fetch the dominfo
+//TODO: Add some error handling
 let getLinks = (type) => {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {from:"popup", subject:"DOMInfo"}, (response) => {
@@ -10,6 +7,7 @@ let getLinks = (type) => {
             let send_arr = [];
             let wk = type.match(/\d+/)
             //TODO: change the 3 below to arr.length
+            //TODO: Fix this into a switch case
             for(let i=0;i<arr.length;i++){
                 if(type==="all"){
                     send_arr.push(arr[i]);
@@ -28,6 +26,7 @@ let getLinks = (type) => {
                 }
             }
             chrome.tabs.sendMessage(tabs[0].id, {from:"popup", subject:"links", links: send_arr}, (response) => {
+                //TODO: Add any retry logic here...
                 if(response) {
                     console.log("sucessfully launched links");
                 }
@@ -39,7 +38,7 @@ let getLinks = (type) => {
     });
 };
 
-
+// Init for button clicks
 function init(){
     document.getElementById('download_all').addEventListener("click", (event) => {
         getLinks("download_all");
