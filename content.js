@@ -27,7 +27,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         response(domInfo());
     }
     if ((msg.from === 'popup') && (msg.subject === 'links')) {
-        //TODO: Change 0 to length of array
         for(let i = 0; i<msg.links.length; i++){
             console.log("executing links");
             try{
@@ -52,7 +51,7 @@ function init(){
         console.log("headline not present in dom")
     }
     if(headline === "Lecture Slides" | headline === "Course Slides") {
-        console.log("detected change and slides is present");
+        console.log("detected change and \"slides\" is present");
         chrome.runtime.sendMessage({
           from: 'content',
           subject: 'showPageAction',
